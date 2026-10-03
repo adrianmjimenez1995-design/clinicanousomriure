@@ -30,3 +30,6 @@ dist-ssr
 .env
 # Configuració local de Claude Code
 .claude/
+
+# Paquet per pujar a Hostinger (es genera a partir de dist/)
+*.zip
