@@ -9,7 +9,7 @@ import { Container } from '@/components/site/Primitives';
 import { Stars, formatRating } from '@/components/home/ReviewsSection';
 
 const highlights = [
-    { ca: 'Reserva en línia a Doctoralia', es: 'Reserva online en Doctoralia' },
+    { ca: 'Cita per WhatsApp o per telèfon', es: 'Cita por WhatsApp o por teléfono' },
     { ca: 'Matins i tardes, de dilluns a divendres', es: 'Mañanas y tardes, de lunes a viernes' },
     { ca: 'Diagnòstic 3D: CBCT i escàner intraoral', es: 'Diagnóstico 3D: CBCT y escáner intraoral' },
 ];
@@ -99,19 +99,24 @@ export default function HeroSection() {
                         </ActionLink>
                     </div>
 
-                    <a
-                        href={reviews.google.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-6 inline-flex items-center gap-2.5 text-sm text-slate-600 transition-colors hover:text-brand-800"
-                    >
-                        <Stars rating={reviews.google.rating} size="h-4 w-4" />
-                        <span>
-                            <strong className="font-semibold text-brand-950">{formatRating(reviews.google.rating, lang)}</strong>
-                            {' · '}
-                            {t({ ca: `${reviews.google.count} ressenyes a Google`, es: `${reviews.google.count} reseñas en Google` })}
-                        </span>
-                    </a>
+                    <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                        {[reviews.google, reviews.doctoralia].map((source) => (
+                            <a
+                                key={source.name}
+                                href={source.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-brand-800"
+                            >
+                                <Stars rating={source.rating} size="h-4 w-4" />
+                                <span>
+                                    <strong className="font-semibold text-brand-950">{formatRating(source.rating, lang)}</strong>
+                                    {' · '}
+                                    {t({ ca: `${source.count} opinions a ${source.name}`, es: `${source.count} opiniones en ${source.name}` })}
+                                </span>
+                            </a>
+                        ))}
+                    </div>
 
                     <ul className="mt-8 grid gap-3 text-[15px] text-slate-700 sm:grid-cols-2 xl:grid-cols-3">
                         {highlights.map((item) => (

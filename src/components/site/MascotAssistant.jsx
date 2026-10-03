@@ -40,7 +40,7 @@ const TIPS = {
     },
     'primera-visita': {
         pose: 'calendari', side: 'left', actions: ['cita', 'trucar'],
-        text: { ca: "Demanar cita és molt fàcil: tria el dia a Doctoralia o truca'ns.", es: 'Pedir cita es muy fácil: elige el día en Doctoralia o llámanos.' },
+        text: { ca: "Demanar cita és molt fàcil: escriu-nos per WhatsApp o truca'ns.", es: 'Pedir cita es muy fácil: escríbenos por WhatsApp o llámanos.' },
     },
     installacions: {
         pose: 'lupa', side: 'right', actions: ['arribar'],
@@ -60,7 +60,7 @@ const TIPS = {
     },
     cita: {
         pose: 'calendari', side: 'right', actions: ['cita'],
-        text: { ca: "T'esperem! Reservar cita només et costarà un minut.", es: '¡Te esperamos! Reservar cita solo te llevará un minuto.' },
+        text: { ca: "T'esperem! Escriu-nos i et donarem hora en un moment.", es: '¡Te esperamos! Escríbenos y te daremos cita en un momento.' },
     },
     'serveis-pagina': {
         pose: 'raspall', side: 'right', actions: ['whatsapp'],
@@ -385,11 +385,12 @@ export default function MascotAssistant() {
                                     {tip.actions.map((key) => {
                                         const action = ACTIONS[key];
                                         const Icon = action.icon;
-                                        const external = action.href.startsWith('http');
+                                        const href = t(action.href);
+                                        const external = href.startsWith('http');
                                         return (
                                             <a
                                                 key={key}
-                                                href={action.href}
+                                                href={href}
                                                 {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                                                 className={cn(
                                                     'inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-semibold transition-colors',

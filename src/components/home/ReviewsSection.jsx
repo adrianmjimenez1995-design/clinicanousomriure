@@ -29,12 +29,15 @@ export function formatRating(rating, lang) {
     return rating.toLocaleString(lang === 'es' ? 'es-ES' : 'ca-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 }
 
-// Valoració real de Google + opinions concretes (si la clínica n'hi afegeix a src/lib/clinic.js)
+// Valoracions reals de Google i Doctoralia + opinions concretes (si la clínica n'hi afegeix a src/lib/clinic.js)
 export default function ReviewsSection() {
     const { t, lang } = useLang();
     const { reviews } = useContent();
-    const { google, testimonials } = reviews;
-    const ratingText = formatRating(google.rating, lang);
+    const { google, doctoralia, testimonials } = reviews;
+    const sources = [
+        { ...google, countLabel: { ca: `${google.count} ressenyes a Google`, es: `${google.count} reseñas en Google` } },
+        { ...doctoralia, countLabel: { ca: `${doctoralia.count} opinions a Doctoralia`, es: `${doctoralia.count} opiniones en Doctoralia` } },
+    ];
 
     return (
         <section data-mascot="opinions" className="pt-24 md:pt-32">
@@ -42,19 +45,38 @@ export default function ReviewsSection() {
                 <Reveal className="relative overflow-hidden rounded-[2rem] border border-sand-200 bg-sand-50 p-8 md:p-12 lg:p-14">
                     <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-amber-200/40 blur-3xl" />
                     <div className="relative grid items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-16">
-                        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-                            <p className="font-display text-7xl font-medium leading-none text-brand-950 md:text-8xl">{ratingText}</p>
-                            <Stars rating={google.rating} className="mt-4" size="h-7 w-7" />
-                            <p className="mt-3 text-sm font-medium text-slate-600">
-                                {t({ ca: `${google.count} ressenyes a Google`, es: `${google.count} reseñas en Google` })}
-                            </p>
-                            <p className="sr-only">
-                                {t({
-                                    ca: `Valoració de ${ratingText} sobre 5 a Google, amb ${google.count} ressenyes.`,
-                                    es: `Valoración de ${ratingText} sobre 5 en Google, con ${google.count} reseñas.`,
-                                })}
-                            </p>
-                        </div>
+                        {/* Una targeta per plataforma: Google i, a sota, Doctoralia */}
+                        <ul className="grid gap-4 sm:grid-cols-2 lg:w-72 lg:grid-cols-1">
+                            {sources.map((source) => {
+                                const ratingText = formatRating(source.rating, lang);
+                                return (
+                                    <li key={source.name}>
+                                        <a
+                                            href={source.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group flex items-center gap-5 rounded-3xl border border-sand-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-[0_18px_40px_-28px_rgba(11,38,39,0.5)]"
+                                        >
+                                            <span className="font-display text-5xl font-medium leading-none text-brand-950">{ratingText}</span>
+                                            <span className="min-w-0">
+                                                <Stars rating={source.rating} size="h-4 w-4" />
+                                                <span className="mt-1.5 block text-sm font-medium text-slate-700">{t(source.countLabel)}</span>
+                                                <span className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-brand-700">
+                                                    {t({ ca: 'Llegir-les', es: 'Leerlas' })}
+                                                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                                                </span>
+                                                <span className="sr-only">
+                                                    {t({
+                                                        ca: ` (valoració de ${ratingText} sobre 5 a ${source.name})`,
+                                                        es: ` (valoración de ${ratingText} sobre 5 en ${source.name})`,
+                                                    })}
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                        </ul>
 
                         <div>
                             <Eyebrow>{t({ ca: 'Opinions', es: 'Opiniones' })}</Eyebrow>
@@ -66,18 +88,14 @@ export default function ReviewsSection() {
                             </h2>
                             <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
                                 {t({
-                                    ca: 'La confiança dels pacients és el que més ens importa. Llegeix les seves ressenyes a Google i, si ja ens has visitat, ens encantarà saber la teva opinió.',
-                                    es: 'La confianza de los pacientes es lo que más nos importa. Lee sus reseñas en Google y, si ya nos has visitado, nos encantará conocer tu opinión.',
+                                    ca: 'La confiança dels pacients és el que més ens importa. Llegeix les seves opinions a Google i a Doctoralia i, si ja ens has visitat, ens encantarà saber la teva.',
+                                    es: 'La confianza de los pacientes es lo que más nos importa. Lee sus opiniones en Google y en Doctoralia y, si ya nos has visitado, nos encantará conocer la tuya.',
                                 })}
                             </p>
                             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                                 <ActionLink href={google.url} variant="brand">
-                                    {t({ ca: 'Llegir les ressenyes', es: 'Leer las reseñas' })}
-                                    <ArrowUpRight />
-                                </ActionLink>
-                                <ActionLink href={google.url} variant="outline">
                                     <Star />
-                                    {t({ ca: 'Deixa la teva ressenya', es: 'Deja tu reseña' })}
+                                    {t({ ca: 'Deixa la teva ressenya a Google', es: 'Deja tu reseña en Google' })}
                                 </ActionLink>
                             </div>
                         </div>

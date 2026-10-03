@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarDays, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { mainPhone } from '@/lib/clinic';
 import useContent from '@/i18n/useContent';
 import { useLang } from '@/i18n/LanguageContext';
@@ -34,22 +34,18 @@ export default function CTASection({ title, description }) {
                         </h2>
                         <p className="mt-6 text-lg leading-relaxed text-brand-100/85">
                             {description ?? t({
-                                ca: `Reserva la teva cita en línia o truca'ns. T'esperem a ${clinic.address.city}.`,
-                                es: `Reserva tu cita online o llámanos. Te esperamos en ${clinic.address.city}.`,
+                                ca: `Escriu-nos per WhatsApp o truca'ns i et donarem hora. T'esperem a ${clinic.address.city}.`,
+                                es: `Escríbenos por WhatsApp o llámanos y te daremos cita. Te esperamos en ${clinic.address.city}.`,
                             })}
                         </p>
                         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                             <ActionLink href={clinic.links.booking} size="lg">
-                                <CalendarDays />
-                                {t({ ca: 'Reservar cita en línia', es: 'Reservar cita online' })}
+                                <WhatsAppIcon />
+                                {t({ ca: 'Demanar cita per WhatsApp', es: 'Pedir cita por WhatsApp' })}
                             </ActionLink>
                             <ActionLink href={mainPhone.href} variant="outlineLight" size="lg">
                                 <Phone />
                                 {mainPhone.label}
-                            </ActionLink>
-                            <ActionLink href={clinic.links.whatsapp} variant="outlineLight" size="lg">
-                                <WhatsAppIcon />
-                                WhatsApp
                             </ActionLink>
                         </div>
                     </Reveal>

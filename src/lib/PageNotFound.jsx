@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeft, CalendarDays } from 'lucide-react';
-import { clinic } from '@/lib/clinic';
+import useContent from '@/i18n/useContent';
 import { useLang } from '@/i18n/LanguageContext';
 import ActionLink from '@/components/site/ActionLink';
 import Mascot from '@/components/site/Mascot';
@@ -9,6 +9,7 @@ import usePageMeta from '@/hooks/use-page-meta';
 
 export default function PageNotFound() {
     const { t, lp } = useLang();
+    const { clinic } = useContent();
     usePageMeta(
         { ca: 'Pàgina no trobada | Clínica Nou Somriure', es: 'Página no encontrada | Clínica Nou Somriure' },
         {

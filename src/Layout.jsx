@@ -272,7 +272,7 @@ export default function Layout({ children, currentPageName }) {
                             ))}
                             <li>
                                 <a href={clinic.links.booking} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
-                                    {t({ ca: 'Reservar a Doctoralia', es: 'Reservar en Doctoralia' })}
+                                    {t({ ca: 'Demanar cita per WhatsApp', es: 'Pedir cita por WhatsApp' })}
                                 </a>
                             </li>
                         </ul>

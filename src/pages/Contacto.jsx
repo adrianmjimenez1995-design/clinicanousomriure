@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPinned } from 'lucide-react';
 import { createPageUrl } from '@/utils';
-import { CalendarDays, Navigation, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Phone, Navigation, Instagram, Facebook, Linkedin } from 'lucide-react';
 import Icon3D from '@/components/site/Icon3D';
 import useContent from '@/i18n/useContent';
 import { useLang } from '@/i18n/LanguageContext';
@@ -129,9 +129,9 @@ export default function Contacto() {
                         </InfoCard>
 
                         <div className="grid gap-3 pt-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                            <ActionLink href={clinic.links.booking}>
-                                <CalendarDays />
-                                {t({ ca: 'Reservar a Doctoralia', es: 'Reservar en Doctoralia' })}
+                            <ActionLink href={clinic.phones[0].href}>
+                                <Phone />
+                                {t({ ca: `Truca'ns: ${clinic.phones[0].label}`, es: `Llámanos: ${clinic.phones[0].label}` })}
                             </ActionLink>
                             <ActionLink href={clinic.links.whatsapp} variant="whatsapp">
                                 <WhatsAppIcon />

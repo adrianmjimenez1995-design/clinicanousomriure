@@ -35,7 +35,7 @@ Si cal un build sense aquest pas, hi ha `npm run build:spa`.
 
 | Què | On |
 | --- | --- |
-| Telèfons, horari, adreça, enllaços (Doctoralia, WhatsApp, xarxes) | `src/lib/clinic.js` |
+| Telèfons, horari, adreça, enllaços (WhatsApp, xarxes) i el missatge de "Demanar cita" | `src/lib/clinic.js` |
 | Textos dels serveis, tecnologia (CBCT i escàner 3D), equip i preguntes freqüents | `src/lib/clinic.js` |
 | Missatges de la mascota (globus per secció) | `src/components/site/MascotAssistant.jsx` → `TIPS` |
 | Capçalera, menú i peu de pàgina | `src/Layout.jsx` |
@@ -62,7 +62,8 @@ Si cal un build sense aquest pas, hi ha `npm run build:spa`.
 
 ## Ressenyes
 
-- La valoració de Google (nota i nombre de ressenyes) és a `src/lib/clinic.js` → `reviews.google`. Actualitzeu-la de tant en tant.
+- Les valoracions de Google i de Doctoralia (nota i nombre d'opinions) són a `src/lib/clinic.js` → `reviews`. Actualitzeu-les de tant en tant.
+- Doctoralia ja no es fa servir per reservar: els botons «Demanar cita» obren WhatsApp amb el missatge ja escrit (`clinic.links.booking`).
 - Per mostrar opinions concretes, afegiu-les a `reviews.testimonials` (només reals, tal qual i amb permís del pacient). Mentre la llista sigui buida, aquell bloc no es mostra.
 
 ## Sobre les imatges

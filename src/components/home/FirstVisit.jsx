@@ -8,8 +8,8 @@ const steps = [
         icon: 'calendari',
         title: { ca: 'Demana cita', es: 'Pide cita' },
         text: {
-            ca: "Reserva en línia a Doctoralia, truca'ns o escriu-nos per WhatsApp. Busquem l'hora que millor et vagi.",
-            es: 'Reserva online en Doctoralia, llámanos o escríbenos por WhatsApp. Buscamos la hora que mejor te vaya.',
+            ca: "Escriu-nos per WhatsApp o truca'ns. Busquem l'hora que millor et vagi.",
+            es: 'Escríbenos por WhatsApp o llámanos. Buscamos la hora que mejor te vaya.',
         },
     },
     {

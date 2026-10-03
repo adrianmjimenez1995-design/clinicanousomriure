@@ -27,7 +27,11 @@ export const clinic = {
         saturday: { ca: 'Dissabtes, a convenir', es: 'Sábados, a convenir' },
     },
     links: {
-        booking: 'https://www.doctoralia.es/clinicas/clinica-nou-somriure',
+        // "Demanar cita": obre WhatsApp amb el missatge ja escrit
+        booking: {
+            ca: `https://wa.me/34664107391?text=${encodeURIComponent('Hola! Voldria demanar cita.')}`,
+            es: `https://wa.me/34664107391?text=${encodeURIComponent('¡Hola! Quisiera pedir cita.')}`,
+        },
         whatsapp: 'https://wa.me/34664107391',
         maps: "https://www.google.com/maps/search/?api=1&query=Cl%C3%ADnica+Nou+Somriure+Carrer+Teulera+138+Santa+Cristina+d'Aro",
         mapEmbed: "https://www.google.com/maps?q=Carrer%20Teulera%20138%2C%2017246%20Santa%20Cristina%20d'Aro&z=16&output=embed",
@@ -262,8 +266,8 @@ export const faqs = [
     {
         q: { ca: 'Com puc demanar cita?', es: '¿Cómo puedo pedir cita?' },
         a: {
-            ca: `Pots reservar en línia a Doctoralia, trucar-nos al ${phone1.label} o al ${phone2.label}, o escriure'ns per WhatsApp.`,
-            es: `Puedes reservar en línea en Doctoralia, llamarnos al ${phone1.label} o al ${phone2.label}, o escribirnos por WhatsApp.`,
+            ca: `Escriu-nos per WhatsApp o truca'ns al ${phone1.label} o al ${phone2.label}, i et donarem hora.`,
+            es: `Escríbenos por WhatsApp o llámanos al ${phone1.label} o al ${phone2.label}, y te daremos cita.`,
         },
     },
     {
@@ -310,13 +314,20 @@ export const faqs = [
     },
 ];
 
-// Ressenyes reals de Google (valoració pública de la fitxa de Google Maps, consultada l'octubre de 2026).
-// Actualitzeu la xifra de tant en tant.
+// Valoracions reals i públiques (consultades l'octubre de 2026). Actualitzeu les xifres de tant en tant.
+// Doctoralia ja no es fa servir per reservar cita, però les seves opinions es continuen mostrant.
 export const reviews = {
     google: {
+        name: 'Google',
         rating: 4.5,
         count: 31,
         url: clinic.links.maps,
+    },
+    doctoralia: {
+        name: 'Doctoralia',
+        rating: 5,
+        count: 125,
+        url: 'https://www.doctoralia.es/clinicas/clinica-nou-somriure',
     },
     // Opinions concretes per mostrar a la web. Afegiu-ne només de reals, copiades tal qual i amb permís del pacient.
     // Format: { text: 'Text de la ressenya', author: 'Inicials o nom', rating: 5 }

@@ -129,14 +129,14 @@ export default function AvisLegal() {
             body: {
                 ca: (
                     <p>
-                        La web conté enllaços a serveis de tercers, com Doctoralia, WhatsApp, Google Maps o les xarxes socials. La
+                        La web conté enllaços a serveis de tercers, com WhatsApp, Google Maps, Doctoralia o les xarxes socials. La
                         clínica no es fa responsable dels continguts ni de les polítiques d'aquests serveis, que es regeixen per les
                         seves pròpies condicions.
                     </p>
                 ),
                 es: (
                     <p>
-                        La web contiene enlaces a servicios de terceros, como Doctoralia, WhatsApp, Google Maps o las redes sociales.
+                        La web contiene enlaces a servicios de terceros, como WhatsApp, Google Maps, Doctoralia o las redes sociales.
                         La clínica no se hace responsable de los contenidos ni de las políticas de estos servicios, que se rigen por
                         sus propias condiciones.
                     </p>

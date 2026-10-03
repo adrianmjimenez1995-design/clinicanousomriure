@@ -135,7 +135,7 @@ export default function Cookies() {
                     <p>
                         A la pàgina de contacte pots veure un mapa de Google Maps. El mapa només es carrega si fas clic a «Mostra el
                         mapa»; en aquell moment Google pot instal·lar les seves galetes, d'acord amb la seva política ({googlePolicy}).
-                        Els enllaços a Doctoralia, WhatsApp, Google o les xarxes socials et porten a webs externes amb les seves
+                        Els enllaços a WhatsApp, Google, Doctoralia o les xarxes socials et porten a webs externes amb les seves
                         pròpies polítiques.
                     </p>
                 ),
@@ -143,7 +143,7 @@ export default function Cookies() {
                     <p>
                         En la página de contacto puedes ver un mapa de Google Maps. El mapa solo se carga si haces clic en «Mostrar el
                         mapa»; en ese momento Google puede instalar sus cookies, de acuerdo con su política ({googlePolicy}). Los
-                        enlaces a Doctoralia, WhatsApp, Google o las redes sociales te llevan a webs externas con sus propias políticas.
+                        enlaces a WhatsApp, Google, Doctoralia o las redes sociales te llevan a webs externas con sus propias políticas.
                     </p>
                 ),
             },

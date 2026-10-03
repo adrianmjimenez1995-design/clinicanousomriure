@@ -131,16 +131,16 @@ export default function Privacitat() {
                 ca: (
                     <p>
                         No cedim les teves dades a tercers, excepte quan hi ha una obligació legal. Comptem amb proveïdors que ens
-                        presten serveis amb les garanties adequades, com l'empresa d'allotjament de la web. Si fas servir WhatsApp,
-                        Doctoralia o Google Maps, aquestes empreses tracten les dades d'acord amb les seves pròpies polítiques de
+                        presten serveis amb les garanties adequades, com l'empresa d'allotjament de la web. Si fas servir WhatsApp o
+                        Google Maps, aquestes empreses tracten les dades d'acord amb les seves pròpies polítiques de
                         privacitat.
                     </p>
                 ),
                 es: (
                     <p>
                         No cedemos tus datos a terceros, salvo cuando existe una obligación legal. Contamos con proveedores que nos
-                        prestan servicios con las garantías adecuadas, como la empresa de alojamiento de la web. Si utilizas WhatsApp,
-                        Doctoralia o Google Maps, estas empresas tratan los datos de acuerdo con sus propias políticas de privacidad.
+                        prestan servicios con las garantías adecuadas, como la empresa de alojamiento de la web. Si utilizas WhatsApp o
+                        Google Maps, estas empresas tratan los datos de acuerdo con sus propias políticas de privacidad.
                     </p>
                 ),
             },
