@@ -1,0 +1,31 @@
+# Hostinger / Apache (LiteSpeed)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+
+  # 1) Pàgines generades en HTML (prerender): /Servicios -> /_p/Servicios.html, /es/Equip -> /_p/es/Equip.html
+  RewriteCond %{REQUEST_URI} !^/_p/
+  RewriteCond %{DOCUMENT_ROOT}/_p%{REQUEST_URI}.html -f
+  RewriteRule ^ _p%{REQUEST_URI}.html [L]
+
+  # 2) La resta de rutes (p. ex. adreces inexistents) -> l'aplicació, que mostra la pàgina 404
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /_p/shell.html [L]
+</IfModule>
+
+# Memòria cau: un any per al CSS/JS (porten hash al nom) i un mes per a imatges i vídeo
+# (si es canvia una foto amb el mateix nom, els visitants la veuran com a molt en un mes)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 month"
+  ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresByType video/webm "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>

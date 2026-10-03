@@ -1,99 +1,72 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ToothBracesIcon, ToothImplantIcon, ToothDropIcon, ToothSparkleIcon, AlertToothIcon } from '../icons/DentalIcons';
-import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { createPageUrl } from '@/utils';
-
-const services = [
-    {
-        icon: ToothBracesIcon,
-        title: "Ortodòncia",
-        description: "Brackets i invisalign per un somriure perfectament alineat.",
-        color: "from-teal-400 to-teal-600"
-    },
-    {
-        icon: ToothImplantIcon,
-        title: "Implants",
-        description: "Solucions permanents amb implants d'última generació.",
-        color: "from-blue-400 to-blue-600"
-    },
-    {
-        icon: ToothDropIcon,
-        title: "Endodòncia",
-        description: "Tractaments de conducte indolors i efectius.",
-        color: "from-rose-400 to-rose-600"
-    },
-    {
-        icon: ToothSparkleIcon,
-        title: "Neteja Dental",
-        description: "Higiene professional per mantenir la teva boca sana.",
-        color: "from-emerald-400 to-emerald-600"
-    },
-    {
-        icon: AlertToothIcon,
-        title: "Urgències",
-        description: "Atenció immediata quan més ho necessites.",
-        color: "from-purple-400 to-purple-600"
-    }
-];
+import useContent from '@/i18n/useContent';
+import { useLang } from '@/i18n/LanguageContext';
+import ActionLink from '@/components/site/ActionLink';
+import { Container, Reveal, SectionHeading } from '@/components/site/Primitives';
 
 export default function ServicesPreview() {
+    const { t, lp } = useLang();
+    const { services } = useContent();
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-            
-            <div className="container mx-auto px-6 lg:px-12">
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center max-w-2xl mx-auto mb-16"
-                >
-                    <span className="text-sm font-medium text-teal-600 tracking-wider uppercase">Els Nostres Serveis</span>
-                    <h2 className="text-4xl md:text-5xl font-light text-slate-900 mt-4 mb-6">
-                        Cura dental <span className="font-semibold">completa</span>
-                    </h2>
-                    <p className="text-slate-600 text-lg font-light">
-                        Oferim una àmplia gamma de tractaments per a totes les teves necessitats bucodentals.
-                    </p>
-                </motion.div>
-                
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section data-mascot="serveis" className="py-24 md:py-32">
+            <Container>
+                <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+                    <SectionHeading
+                        align="left"
+                        eyebrow={t({ ca: 'Tractaments', es: 'Tratamientos' })}
+                        title={t({ ca: 'Tot el que necessites per cuidar el teu somriure', es: 'Todo lo que necesitas para cuidar tu sonrisa' })}
+                        description={t({
+                            ca: 'Des de la revisió anual fins als tractaments més complets, amb el mateix equip i al mateix lloc.',
+                            es: 'Desde la revisión anual hasta los tratamientos más completos, con el mismo equipo y en el mismo lugar.',
+                        })}
+                    />
+                    <Reveal className="shrink-0">
+                        <ActionLink to={lp(createPageUrl('Servicios'))} variant="outline">
+                            {t({ ca: 'Veure tots els serveis', es: 'Ver todos los servicios' })}
+                            <ArrowRight className="transition-transform group-hover/btn:translate-x-0.5" />
+                        </ActionLink>
+                    </Reveal>
+                </div>
+
+                <div className="mt-14 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
                     {services.map((service, index) => (
-                        <motion.div
-                            key={service.title}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="group relative"
-                        >
-                            <div className="relative bg-slate-50/50 hover:bg-white rounded-3xl p-8 transition-all duration-500 border border-slate-100 hover:border-slate-200 hover:shadow-xl hover:shadow-slate-200/50 h-full">
-                                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
-                                    <service.icon className="w-7 h-7 text-white" />
+                        <Reveal key={service.slug} delay={(index % 4) * 0.06}>
+                            <Link
+                                to={lp(`${createPageUrl('Servicios')}#${service.slug}`)}
+                                className="group flex h-full overflow-hidden rounded-3xl border border-sand-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-[0_24px_50px_-28px_rgba(11,38,39,0.45)] sm:flex-col"
+                            >
+                                {/* En mòbil la targeta és horitzontal per no allargar tant la pàgina */}
+                                <div className="relative w-32 shrink-0 overflow-hidden sm:w-auto">
+                                    <img
+                                        src={service.image}
+                                        alt=""
+                                        loading="lazy"
+                                        width="1440"
+                                        height="956"
+                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:aspect-[4/3] sm:h-auto"
+                                    />
+                                    {service.urgent && (
+                                        <span className="absolute left-4 top-4 hidden rounded-full bg-terra-600 px-3 py-1 text-xs font-semibold text-white shadow sm:block">
+                                            {t({ ca: 'Atenció prioritària', es: 'Atención prioritaria' })}
+                                        </span>
+                                    )}
                                 </div>
-                                <h3 className="text-xl font-semibold text-slate-900 mb-3">{service.title}</h3>
-                                <p className="text-slate-600 font-light leading-relaxed">{service.description}</p>
-                            </div>
-                        </motion.div>
+                                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                                    <h3 className="font-display text-lg font-medium text-brand-950 sm:text-xl">{service.title}</h3>
+                                    <p className="mt-1.5 flex-1 text-sm leading-relaxed text-slate-600 sm:mt-2 sm:text-[15px]">{service.short}</p>
+                                    <span className="mt-3 inline-flex sm:mt-5 items-center gap-1.5 text-sm font-semibold text-brand-700">
+                                        {t({ ca: 'Més informació', es: 'Más información' })}
+                                        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                                    </span>
+                                </div>
+                            </Link>
+                        </Reveal>
                     ))}
                 </div>
-                
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    className="text-center mt-12"
-                >
-                    <Link to={createPageUrl('Servicios')}>
-                        <Button variant="outline" size="lg" className="rounded-full px-8 border-slate-300 hover:border-teal-500 hover:text-teal-600">
-                            Veure tots els serveis
-                        </Button>
-                    </Link>
-                </motion.div>
-            </div>
+            </Container>
         </section>
     );
 }

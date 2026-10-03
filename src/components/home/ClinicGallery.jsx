@@ -1,67 +1,51 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import useContent from '@/i18n/useContent';
+import { useLang } from '@/i18n/LanguageContext';
+import { Container, Reveal, SectionHeading } from '@/components/site/Primitives';
+import { cn } from '@/lib/utils';
 
 const galleryImages = [
-    {
-        url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/d4866403f_IMG_5342.jpg",
-        title: "Sala d'Espera"
-    },
-    {
-        url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/eeedcd269_IMG_5335.jpg",
-        title: "Recepció"
-    },
-    {
-        url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/c034e9068_IMG_5324.jpg",
-        title: "Equipament Modern"
-    },
-    {
-        url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/5558ce895_IMG_5330.jpg",
-        title: "Instal·lacions"
-    }
+    { photo: 'waitingRoom', title: { ca: "Sala d'espera", es: 'Sala de espera' }, className: 'col-span-2 row-span-2' },
+    { photo: 'reception', title: { ca: 'Recepció', es: 'Recepción' } },
+    { photo: 'surgery', title: { ca: 'Gabinet', es: 'Gabinete' } },
+    { photo: 'welcome', title: { ca: 'Acollida', es: 'Acogida' } },
+    { photo: 'corridor', title: { ca: 'Instal·lacions', es: 'Instalaciones' } },
 ];
 
 export default function ClinicGallery() {
+    const { t } = useLang();
+    const { clinicPhotos } = useContent();
     return (
-        <section className="py-24 bg-slate-50">
-            <div className="container mx-auto px-6 lg:px-12">
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center max-w-2xl mx-auto mb-16"
-                >
-                    <span className="text-sm font-medium text-teal-600 tracking-wider uppercase">Les Nostres Instal·lacions</span>
-                    <h2 className="text-4xl md:text-5xl font-light text-slate-900 mt-4 mb-6">
-                        Un espai dissenyat <span className="font-semibold">per a tu</span>
-                    </h2>
-                    <p className="text-slate-600 text-lg font-light">
-                        Instal·lacions modernes, còmodes i acollidores perque et sentis com a casa.
-                    </p>
-                </motion.div>
-                
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section data-mascot="installacions" className="py-24 md:py-32">
+            <Container>
+                <SectionHeading
+                    eyebrow={t({ ca: 'Les nostres instal·lacions', es: 'Nuestras instalaciones' })}
+                    title={t({ ca: 'Un espai pensat perquè et sentis com a casa', es: 'Un espacio pensado para que te sientas como en casa' })}
+                    description={t({
+                        ca: "Instal·lacions modernes, lluminoses i acollidores al centre de Santa Cristina d'Aro.",
+                        es: "Instalaciones modernas, luminosas y acogedoras en el centro de Santa Cristina d'Aro.",
+                    })}
+                />
+
+                <div className="mt-14 grid auto-rows-[150px] grid-cols-2 gap-3 sm:auto-rows-[220px] sm:gap-4 md:auto-rows-[260px] lg:grid-cols-4">
                     {galleryImages.map((image, index) => (
-                        <motion.div
-                            key={image.title}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="group relative overflow-hidden rounded-2xl aspect-[4/5] cursor-pointer"
-                        >
-                            <img 
-                                src={image.url}
-                                alt={image.title}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                <h3 className="text-white font-semibold text-lg">{image.title}</h3>
-                            </div>
-                        </motion.div>
+                        <Reveal key={image.photo} delay={index * 0.06} className={cn('h-full', image.className)}>
+                            <figure className="group relative h-full overflow-hidden rounded-3xl">
+                                <img
+                                    src={clinicPhotos[image.photo].src}
+                                    alt={clinicPhotos[image.photo].alt}
+                                    loading="lazy"
+                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-950/60 via-transparent to-transparent" />
+                                <figcaption className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold sm:bottom-4 sm:left-4 sm:px-4 sm:py-1.5 sm:text-sm text-brand-950 shadow backdrop-blur">
+                                    {t(image.title)}
+                                </figcaption>
+                            </figure>
+                        </Reveal>
                     ))}
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

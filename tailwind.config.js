@@ -4,12 +4,47 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
   	extend: {
+  		fontFamily: {
+  			sans: ['"Plus Jakarta Sans Variable"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+  			display: ['"Fraunces Variable"', 'ui-serif', 'Georgia', 'serif']
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+  			// Paleta extreta de la clínica real: parets turquesa, taulells terracota i fusta clara
+  			brand: {
+  				50: '#eef8f7',
+  				100: '#d5efed',
+  				200: '#addedb',
+  				300: '#7fc8c4',
+  				400: '#4fa9a6',
+  				500: '#2f8f8c',
+  				600: '#217674',
+  				700: '#1d5f5e',
+  				800: '#1b4d4d',
+  				900: '#163f40',
+  				950: '#0b2627'
+  			},
+  			terra: {
+  				50: '#fdf4ef',
+  				100: '#fae5d9',
+  				200: '#f4c8b0',
+  				300: '#eca37f',
+  				400: '#e2834f',
+  				500: '#d9733f',
+  				600: '#bf5527',
+  				700: '#9e4322',
+  				800: '#803822',
+  				900: '#69301f'
+  			},
+  			sand: {
+  				50: '#fcfaf7',
+  				100: '#f7f3ec',
+  				200: '#efe7da'
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

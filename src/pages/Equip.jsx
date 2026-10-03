@@ -1,138 +1,139 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import Icon3D from '@/components/site/Icon3D';
+import useContent from '@/i18n/useContent';
+import { useLang } from '@/i18n/LanguageContext';
+import { Container, PageHeader, Reveal, SectionHeading } from '@/components/site/Primitives';
+import CTASection from '../components/home/CTASection';
+import usePageMeta from '@/hooks/use-page-meta';
+import { SEO } from '@/lib/seo';
+import { cn } from '@/lib/utils';
 
-const team = [
+// Valors extrets del missatge de la gerència
+const values = [
     {
-        name: "Belén Vázquez",
-        role: "Gerència",
-        specialty: "Gerència ",
-        bio: "Amb més de deu anys d'experiència en odontologia, sé que la meva vocació va molt més enllà de cuidar dents: m'apassiona ajudar les persones a recuperar la confiança a través del seu somriure. Així va néixer el meu somni: crear una clínica on l'atenció sigui propera, honesta i pensada per a cada persona.\n\nTinc la sort de comptar amb un equip ple d'energia, compromís i experiència. Junts compartim una idea molt clara: volem que tothom pugui accedir a una atenció odontològica de qualitat, sense que el factor econòmic sigui una barrera.",
-        image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/4524b9e5d_BELN.jpg"
+        icon: 'cura',
+        title: { ca: 'Atenció propera', es: 'Atención cercana' },
+        text: {
+            ca: 'Cada pacient és diferent. Escoltem, expliquem i adaptem el tractament a cada persona.',
+            es: 'Cada paciente es diferente. Escuchamos, explicamos y adaptamos el tratamiento a cada persona.',
+        },
     },
     {
-        name: "Marta Cantenys Juanola",
-        role: "Ortodoncista",
-        specialty: "Ortodòncia Fixa i Invisible",
-        bio: "L'ortodòncia és l'especialitat de l'odontologia que s'encarrega d'estudiar, prevenir i corregir la posició de les dents i dels maxil·lars.\n\nEl seu objectiu és restablir l'equilibri i la funcionalitat de la boca, millorant alhora l'estètica facial i l'harmonia del somriure. A la clínica oferim tractaments adaptats a cada persona, amb la tecnologia més avançada per aconseguir resultats precisos, naturals i còmodes.",
-        image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/fcac43cec_MARTA.jpg"
+        icon: 'honestedat',
+        title: { ca: 'Honestedat', es: 'Honestidad' },
+        text: {
+            ca: 'Et recomanem només el que necessites, amb un pla clar i transparent des del primer dia.',
+            es: 'Te recomendamos solo lo que necesitas, con un plan claro y transparente desde el primer día.',
+        },
     },
     {
-        name: "Joel Pelach",
-        role: "Odontòleg",
-        specialty: "Odontologia General i Periodòncia",
-        bio: "Odontologia General: Expert en prevenció, diagnòstic i tractament de problemes dentals comuns (càries, neteges, restauracions).\n\nPeriodòncia: Especialista centrat en la salut de les genives i l'os que sosté les dents. S'encarrega de prevenir, diagnosticar i tractar malalties periodontals, assegurant una base sòlida per al seu somriure.",
-        image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/e9c555f3b_JOEL.jpg"
+        icon: 'tothom',
+        title: { ca: 'Accessible per a tothom', es: 'Accesible para todos' },
+        text: {
+            ca: 'Volem que el factor econòmic no sigui una barrera per accedir a una odontologia de qualitat.',
+            es: 'Queremos que el factor económico no sea una barrera para acceder a una odontología de calidad.',
+        },
     },
-    {
-        name: "Oriol Timoneda",
-        role: "Implantòleg",
-        specialty: "Especialista en Implantologia",
-        bio: "",
-        image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/e405ebdd6_ORIOL.jpg"
-    }
 ];
 
-export default function Equip() {
-    const [expandedMember, setExpandedMember] = useState(null);
+function TeamCard({ member, index }) {
+    const { t } = useLang();
+    const [expanded, setExpanded] = useState(false);
+    const bioId = `bio-${index}`;
+    const paragraphs = member.bio.split('\n\n');
 
     return (
-        <main className="min-h-screen bg-white">
-            {/* Header */}
-            <section className="pt-32 pb-20 px-6 lg:px-12 bg-gradient-to-br from-slate-50 via-white to-teal-50/30">
-                <div className="container mx-auto max-w-4xl text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <span className="text-sm font-medium text-teal-600 tracking-wider uppercase">El Nostre Equip</span>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-slate-900 mt-4 mb-6">
-                            Professionals <span className="font-semibold">dedicats</span>
-                        </h1>
-                        <p className="text-lg text-slate-600 max-w-2xl mx-auto font-light">
-                            Coneix els nostres especialistes, compromesos amb la teva salut bucodental.
-                        </p>
-                    </motion.div>
-                </div>
-            </section>
-            
-            {/* Team Section */}
-            <section className="py-24 px-6 lg:px-12 bg-slate-900">
-                <div className="container mx-auto max-w-6xl">
-                    <div className="max-w-5xl mx-auto space-y-6">
-                        {team.map((member, index) => (
-                            <motion.div
-                                key={member.name}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="bg-slate-800 rounded-3xl overflow-hidden border border-slate-700"
-                            >
-                                <button
-                                    onClick={() => setExpandedMember(expandedMember === index ? null : index)}
-                                    className="w-full p-6 md:p-8 flex items-center gap-6 hover:bg-slate-750 transition-colors text-left"
-                                >
-                                    <div className="relative flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden">
-                                        <img 
-                                            src={member.image}
-                                            alt={member.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-2xl md:text-3xl font-semibold text-white mb-1">{member.name}</h3>
-                                        <p className="text-teal-400 text-lg font-medium">{member.role}</p>
-                                        <p className="text-slate-400 text-sm">{member.specialty}</p>
-                                    </div>
-                                    <motion.div
-                                        animate={{ rotate: expandedMember === index ? 180 : 0 }}
-                                        transition={{ duration: 0.3 }}
-                                        className="flex-shrink-0"
-                                    >
-                                        <ChevronDown className="w-6 h-6 text-teal-400" />
-                                    </motion.div>
-                                </button>
-                                
-                                <motion.div
-                                    initial={false}
-                                    animate={{ 
-                                        height: expandedMember === index ? 'auto' : 0,
-                                        opacity: expandedMember === index ? 1 : 0
-                                    }}
-                                    transition={{ duration: 0.3 }}
-                                    className="overflow-hidden"
-                                >
-                                    <div className="px-6 md:px-8 pb-8">
-                                        <div className="grid md:grid-cols-2 gap-8 items-start">
-                                            <div className={`relative rounded-2xl overflow-hidden ${index % 2 === 0 ? 'md:order-1' : 'md:order-2'}`}>
-                                                <img 
-                                                    src={member.image}
-                                                    alt={member.name}
-                                                    className="w-full h-[400px] object-cover"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                                            </div>
-                                            {member.bio ? (
-                                                <div className={`space-y-4 ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
-                                                    <p className="text-slate-300 leading-relaxed whitespace-pre-line">
-                                                        {member.bio}
-                                                    </p>
-                                                </div>
-                                            ) : (
-                                                <div className={`flex items-center justify-center h-full ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
-                                                    <p className="text-slate-400 italic">Informació pròximament</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            </motion.div>
+        <Reveal delay={(index % 2) * 0.08} className="h-full">
+            <article className="flex h-full flex-col gap-6 rounded-3xl border border-sand-200 bg-white p-4 shadow-[0_20px_50px_-35px_rgba(11,38,39,0.45)] sm:flex-row sm:p-5">
+                {/* Foto sencera i quadrada: les fotos originals porten el nom imprès a dalt i no s'han de retallar */}
+                <img
+                    src={member.image}
+                    alt={member.name}
+                    loading="lazy"
+                    className="aspect-square w-full shrink-0 self-start rounded-2xl bg-brand-100 object-cover sm:w-52"
+                />
+                <div className="flex flex-1 flex-col px-2 pb-2 sm:px-0 sm:pt-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-terra-600">{member.role}</p>
+                    <h2 className="mt-2 font-display text-2xl font-medium text-brand-950">{member.name}</h2>
+                    <p className="mt-1 text-sm font-medium text-brand-700">{member.specialty}</p>
+
+                    {/* Plegat: només el primer paràgraf, retallat; desplegat: la bio sencera */}
+                    <div id={bioId} className="mt-5 space-y-3 text-[15px] leading-relaxed text-slate-600">
+                        {(expanded ? paragraphs : paragraphs.slice(0, 1)).map((paragraph) => (
+                            <p key={paragraph} className={cn(!expanded && 'line-clamp-4')}>{paragraph}</p>
                         ))}
                     </div>
+
+                    <button
+                        type="button"
+                        onClick={() => setExpanded(!expanded)}
+                        aria-expanded={expanded}
+                        aria-controls={bioId}
+                        className="mt-4 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-brand-700 transition-colors hover:text-brand-900"
+                    >
+                        {expanded ? t({ ca: 'Llegir menys', es: 'Leer menos' }) : t({ ca: 'Llegir més', es: 'Leer más' })}
+                        <ChevronDown className={cn('h-4 w-4 transition-transform', expanded && 'rotate-180')} />
+                    </button>
                 </div>
+            </article>
+        </Reveal>
+    );
+}
+
+export default function Equip() {
+    const { t } = useLang();
+    const { clinicPhotos, team } = useContent();
+    usePageMeta(SEO.Equip.title, SEO.Equip.description);
+
+    return (
+        <main>
+            <PageHeader
+                eyebrow={t({ ca: 'El nostre equip', es: 'Nuestro equipo' })}
+                title={t({
+                    ca: <>Professionals <em className="font-normal italic text-brand-600">dedicats</em></>,
+                    es: <>Profesionales <em className="font-normal italic text-brand-600">dedicados</em></>,
+                })}
+                description={t({
+                    ca: 'Coneix els professionals que cuiden la teva salut bucodental, cadascun dedicat al seu àmbit.',
+                    es: 'Conoce a los profesionales que cuidan tu salud bucodental, cada uno dedicado a su ámbito.',
+                })}
+                mascotTip="equip-pagina"
+                image={clinicPhotos.surgery}
+            />
+
+            <section className="py-20 md:py-28">
+                <Container>
+                    <div className="grid gap-6 lg:grid-cols-2">
+                        {team.map((member, index) => (
+                            <TeamCard key={member.name} member={member} index={index} />
+                        ))}
+                    </div>
+                </Container>
             </section>
+
+            <section data-mascot="nosaltres" className="bg-sand-100 py-24 md:py-28">
+                <Container>
+                    <SectionHeading
+                        eyebrow={t({ ca: 'La nostra manera de treballar', es: 'Nuestra forma de trabajar' })}
+                        title={t({ ca: 'El que ens defineix', es: 'Lo que nos define' })}
+                    />
+                    <div className="mt-14 grid gap-5 md:grid-cols-3">
+                        {values.map(({ icon, title, text }, index) => (
+                            <Reveal key={title.ca} delay={index * 0.08} className="h-full">
+                                <div className="h-full rounded-3xl border border-sand-200 bg-white p-8">
+                                    <Icon3D name={icon} className="h-16 w-16" />
+                                    <h3 className="mt-6 font-display text-xl font-medium text-brand-950">{t(title)}</h3>
+                                    <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{t(text)}</p>
+                                </div>
+                            </Reveal>
+                        ))}
+                    </div>
+                </Container>
+            </section>
+
+            <div className="pt-3 sm:pt-5" />
+            <CTASection />
         </main>
     );
 }

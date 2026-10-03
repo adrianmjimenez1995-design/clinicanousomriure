@@ -1,108 +1,97 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Check, Users } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Link } from 'react-router-dom';
+import { Check, ArrowRight } from 'lucide-react';
 import { createPageUrl } from '@/utils';
+import useContent from '@/i18n/useContent';
+import { useLang } from '@/i18n/LanguageContext';
+import ActionLink from '@/components/site/ActionLink';
+import { Container, Reveal, Eyebrow } from '@/components/site/Primitives';
 
 const features = [
-    "Equip de professionals certificats",
-    "Tecnologia d'última generació",
-    "Ambient càlid i acollidor",
-    "Tractaments personalitzats"
+    { ca: 'Equip de professionals amb experiència', es: 'Equipo de profesionales con experiencia' },
+    { ca: 'Diagnòstic 3D: CBCT i escàner intraoral', es: 'Diagnóstico 3D: CBCT y escáner intraoral' },
+    { ca: 'Ambient càlid i acollidor', es: 'Ambiente cálido y acogedor' },
+    { ca: 'Tractaments personalitzats', es: 'Tratamientos personalizados' },
+];
+
+const stats = [
+    { value: '+2.000', label: { ca: 'pacients atesos', es: 'pacientes atendidos' } },
+    { value: '+3', label: { ca: "anys a Santa Cristina d'Aro", es: "años en Santa Cristina d'Aro" } },
+    { value: '8', label: { ca: 'tractaments', es: 'tratamientos' } },
 ];
 
 export default function AboutPreview() {
+    const { t, lp } = useLang();
+    const { clinicPhotos } = useContent();
     return (
-        <section className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-teal-500/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-3xl" />
-            
-            <div className="container mx-auto px-6 lg:px-12 relative z-10">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="relative"
-                    >
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="space-y-4">
-                                <img 
-                                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/c034e9068_IMG_5324.jpg"
-                                    alt="Equipamiento dental moderno"
-                                    className="rounded-2xl shadow-2xl w-full h-64 object-cover"
-                                />
-                                <img 
-                                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/cd2c525e0_IMG_5326.jpg"
-                                    alt="Recepción clínica"
-                                    className="rounded-2xl shadow-2xl w-full h-64 object-cover"
-                                />
+        <section data-mascot="nosaltres" className="relative overflow-hidden bg-brand-900 py-24 text-white md:py-32">
+            <div aria-hidden="true" className="absolute -right-32 top-0 h-[560px] w-[560px] rounded-full bg-brand-500/20 blur-3xl" />
+            <div aria-hidden="true" className="absolute -bottom-40 -left-20 h-[420px] w-[420px] rounded-full bg-terra-500/15 blur-3xl" />
+
+            <Container className="relative grid items-center gap-16 lg:grid-cols-2">
+                <Reveal className="relative order-2 lg:order-1">
+                    <div className="grid grid-cols-2 gap-4">
+                        <img
+                            src={clinicPhotos.surgery.src}
+                            alt={clinicPhotos.surgery.alt}
+                            loading="lazy"
+                            className="col-span-2 aspect-[16/10] w-full rounded-3xl object-cover shadow-2xl sm:col-span-1 sm:row-span-2 sm:aspect-auto sm:h-full"
+                        />
+                        <img
+                            src={clinicPhotos.welcome.src}
+                            alt={clinicPhotos.welcome.alt}
+                            loading="lazy"
+                            className="aspect-square w-full rounded-3xl object-cover shadow-2xl"
+                        />
+                        <img
+                            src={clinicPhotos.corridor.src}
+                            alt={clinicPhotos.corridor.alt}
+                            loading="lazy"
+                            className="aspect-square w-full rounded-3xl object-cover shadow-2xl"
+                        />
+                    </div>
+                </Reveal>
+
+                <Reveal className="order-1 lg:order-2">
+                    <Eyebrow tone="dark">{t({ ca: 'Sobre nosaltres', es: 'Sobre nosotros' })}</Eyebrow>
+                    <h2 className="mt-4 font-display text-3xl font-medium leading-[1.1] tracking-tight text-white md:text-5xl">
+                        {t({
+                            ca: <>Una clínica propera, honesta i <em className="font-normal italic text-terra-300">pensada per a tu</em></>,
+                            es: <>Una clínica cercana, honesta y <em className="font-normal italic text-terra-300">pensada para ti</em></>,
+                        })}
+                    </h2>
+                    <p className="mt-6 text-lg leading-relaxed text-brand-100/80">
+                        {t({
+                            ca: 'La Clínica Nou Somriure va néixer amb una idea clara: oferir una atenció odontològica de qualitat i transparent, perquè el factor econòmic no sigui mai una barrera per cuidar la teva salut.',
+                            es: 'La Clínica Nou Somriure nació con una idea clara: ofrecer una atención odontológica de calidad y transparente, para que el factor económico nunca sea una barrera para cuidar tu salud.',
+                        })}
+                    </p>
+
+                    <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                        {features.map((feature) => (
+                            <li key={feature.ca} className="flex items-center gap-3 text-[15px] text-brand-50">
+                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-terra-500/20 ring-1 ring-terra-300/40">
+                                    <Check className="h-3.5 w-3.5 text-terra-200" strokeWidth={3} />
+                                </span>
+                                {t(feature)}
+                            </li>
+                        ))}
+                    </ul>
+
+                    <dl className="mt-10 grid grid-cols-3 gap-4 border-y border-white/10 py-7">
+                        {stats.map((stat) => (
+                            <div key={stat.value} className="flex flex-col-reverse">
+                                <dt className="mt-1 text-sm leading-snug text-brand-100/70">{t(stat.label)}</dt>
+                                <dd className="font-display text-2xl font-medium text-white sm:text-3xl md:text-4xl">{stat.value}</dd>
                             </div>
-                            <div className="space-y-4 pt-8">
-                                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                                    <Users className="w-8 h-8 mb-3 text-amber-400" />
-                                    <p className="font-semibold text-lg text-white">+2000</p>
-                                    <p className="text-slate-400 text-sm">Pacients satisfets</p>
-                                </div>
-                                <img 
-                                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69788a3c4899adaff8045d41/eeedcd269_IMG_5335.jpg"
-                                    alt="Instalaciones clínica"
-                                    className="rounded-2xl shadow-2xl w-full h-56 object-cover"
-                                />
-                            </div>
-                        </div>
-                    </motion.div>
-                    
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="space-y-8"
-                    >
-                        <div>
-                            <span className="text-sm font-medium text-teal-400 tracking-wider uppercase">Sobre Nosaltres</span>
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mt-4 leading-tight">
-                                El teu benestar és la nostra <span className="font-semibold text-teal-400">prioritat</span>
-                            </h2>
-                        </div>
-                        
-                        <p className="text-slate-300 text-base md:text-lg font-light leading-relaxed">
-                            A Clínica Nou Somriure portem més de 3 anys dedicats a l'odontologia de qualitat. El nostre compromís és oferir tractaments d'avantguarda en un ambient de confiança i calidesa.
-                        </p>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {features.map((feature, index) => (
-                                <motion.div
-                                    key={feature}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1 }}
-                                    className="flex items-center gap-3"
-                                >
-                                    <div className="w-5 h-5 rounded-full bg-teal-500/20 flex items-center justify-center flex-shrink-0">
-                                        <Check className="w-3 h-3 text-teal-400" />
-                                    </div>
-                                    <span className="text-slate-300 text-sm">{feature}</span>
-                                </motion.div>
-                            ))}
-                        </div>
-                        
-                        <Link to={createPageUrl('Equip')}>
-                            <Button 
-                                size="lg" 
-                                className="bg-white text-slate-900 hover:bg-teal-50 rounded-full px-8 py-6 mt-4"
-                            >
-                                Coneix el nostre equip
-                            </Button>
-                        </Link>
-                    </motion.div>
-                </div>
-            </div>
+                        ))}
+                    </dl>
+
+                    <ActionLink to={lp(createPageUrl('Equip'))} variant="light" className="mt-10">
+                        {t({ ca: "Coneix l'equip", es: 'Conoce al equipo' })}
+                        <ArrowRight className="transition-transform group-hover/btn:translate-x-0.5" />
+                    </ActionLink>
+                </Reveal>
+            </Container>
         </section>
     );
 }

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Fitxers interns del prerender (les pàgines es publiquen a les seves URL normals)
+Disallow: /_p/
+
+Sitemap: https://www.clinicanousomriure.com/sitemap.xml

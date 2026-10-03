@@ -1,75 +1,59 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Button } from "@/components/ui/button";
-import { Calendar, Phone, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
+import { CalendarDays, Phone } from 'lucide-react';
+import { mainPhone } from '@/lib/clinic';
+import useContent from '@/i18n/useContent';
+import { useLang } from '@/i18n/LanguageContext';
+import ActionLink from '@/components/site/ActionLink';
+import WhatsAppIcon from '@/components/site/WhatsAppIcon';
+import { Container, Reveal } from '@/components/site/Primitives';
 
-export default function CTASection() {
+export default function CTASection({ title, description }) {
+    const { t } = useLang();
+    const { clinic, clinicPhotos } = useContent();
     return (
-        <section className="py-24 bg-gradient-to-br from-teal-600 via-teal-500 to-emerald-500 relative overflow-hidden">
-            {/* Decorative pattern */}
-            <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-10 left-10 w-32 h-32 border border-white rounded-full" />
-                <div className="absolute top-20 right-20 w-48 h-48 border border-white rounded-full" />
-                <div className="absolute bottom-10 left-1/4 w-24 h-24 border border-white rounded-full" />
-                <div className="absolute bottom-20 right-1/3 w-40 h-40 border border-white rounded-full" />
-            </div>
-            
-            <div className="container mx-auto px-6 lg:px-12 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center max-w-3xl mx-auto"
-                >
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6">
-                        Preparat per al teu <span className="font-semibold">nou somriure</span>?
-                    </h2>
-                    <p className="text-xl text-white/80 mb-10 font-light">
-                        T'esperem
-                    </p>
-                    
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="https://www.doctoralia.es/clinicas/clinica-nou-somriure" target="_blank" rel="noopener noreferrer">
-                            <Button 
-                                size="lg" 
-                                className="bg-white text-teal-600 hover:bg-slate-100 rounded-full px-8 py-6 text-base shadow-xl shadow-teal-900/20"
-                            >
-                                <Calendar className="mr-2 w-5 h-5" />
-                                Reservar Cita Online
-                                <ArrowRight className="ml-2 w-5 h-5" />
-                            </Button>
-                        </a>
-                        <a href="tel:+34664107391">
-                            <Button 
-                                size="lg" 
-                                variant="outline"
-                                className="border-2 border-white text-white hover:bg-white/10 rounded-full px-8 py-6 text-base"
-                            >
-                                <Phone className="mr-2 w-5 h-5" />
-                                664 107 391
-                            </Button>
-                        </a>
-                    </div>
-                    
-                    <motion.div 
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.4 }}
-                        className="mt-12 flex items-center justify-center gap-8"
-                    >
-                        <div className="flex -space-x-3">
-                            {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="w-10 h-10 rounded-full bg-white/20 border-2 border-white/40 backdrop-blur-sm" />
-                            ))}
-                        </div>
-                        <p className="text-white/90 text-sm">
-                            <span className="font-semibold">+100 pacients</span> ens van triar aquest mes
+        <section data-mascot="cita" className="px-3 pb-3 sm:px-5 sm:pb-5">
+            <div className="relative overflow-hidden rounded-[2rem] bg-brand-800 md:rounded-[2.5rem]">
+                <img
+                    src={clinicPhotos.waitingRoom.src}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-y-0 right-0 hidden h-full w-3/5 object-cover md:block"
+                />
+                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-brand-900 from-40% via-brand-900/85 via-60% to-brand-900/20" />
+                <div aria-hidden="true" className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-terra-500/25 blur-3xl" />
+
+                <Container className="relative py-20 md:py-28">
+                    <Reveal className="max-w-2xl">
+                        <h2 className="font-display text-4xl font-medium leading-[1.08] tracking-tight text-white md:text-6xl">
+                            {title ?? (
+                                t({
+                                    ca: <>A punt per al teu <em className="font-normal italic text-terra-300">nou somriure</em>?</>,
+                                    es: <>¿Preparado para tu <em className="font-normal italic text-terra-300">nueva sonrisa</em>?</>,
+                                })
+                            )}
+                        </h2>
+                        <p className="mt-6 text-lg leading-relaxed text-brand-100/85">
+                            {description ?? t({
+                                ca: `Reserva la teva cita en línia o truca'ns. T'esperem a ${clinic.address.city}.`,
+                                es: `Reserva tu cita online o llámanos. Te esperamos en ${clinic.address.city}.`,
+                            })}
                         </p>
-                    </motion.div>
-                </motion.div>
+                        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                            <ActionLink href={clinic.links.booking} size="lg">
+                                <CalendarDays />
+                                {t({ ca: 'Reservar cita en línia', es: 'Reservar cita online' })}
+                            </ActionLink>
+                            <ActionLink href={mainPhone.href} variant="outlineLight" size="lg">
+                                <Phone />
+                                {mainPhone.label}
+                            </ActionLink>
+                            <ActionLink href={clinic.links.whatsapp} variant="outlineLight" size="lg">
+                                <WhatsAppIcon />
+                                WhatsApp
+                            </ActionLink>
+                        </div>
+                    </Reveal>
+                </Container>
             </div>
         </section>
     );
