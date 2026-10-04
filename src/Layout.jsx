@@ -21,13 +21,8 @@ const navLinks = [
     { name: { ca: 'Contacte', es: 'Contacto' }, page: 'Contacto', to: createPageUrl('Contacto') },
 ];
 
-// Pàgines legals: enllaçades al peu i sense la mascota (no ha de distreure mentre es llegeixen)
-const legalLinks = [
-    { name: { ca: 'Avís legal', es: 'Aviso legal' }, page: 'AvisLegal' },
-    { name: { ca: 'Privacitat', es: 'Privacidad' }, page: 'Privacitat' },
-    { name: { ca: 'Galetes', es: 'Cookies' }, page: 'Cookies' },
-];
-const LEGAL_PAGES = legalLinks.map((l) => l.page);
+// Pàgines legals: sense la mascota (no ha de distreure mentre es llegeixen)
+const LEGAL_PAGES = ['AvisLegal', 'Privacitat', 'Cookies'];
 
 function isActive(pathname, page) {
     if (page === 'Tecnologia') return false;
@@ -329,13 +324,6 @@ export default function Layout({ children, currentPageName }) {
                     <Container className="flex flex-col gap-1 pb-24 pt-6 text-xs text-brand-100/55 sm:flex-row sm:items-center sm:gap-3 sm:pb-6">
                         <p suppressHydrationWarning>© {new Date().getFullYear()} {clinic.name}. {t({ ca: 'Tots els drets reservats.', es: 'Todos los derechos reservados.' })}</p>
                         <p>{t({ ca: 'Registre sanitari', es: 'Registro sanitario' })} {clinic.healthRegistry}</p>
-                        <nav aria-label={t({ ca: 'Informació legal', es: 'Información legal' })} className="flex flex-wrap gap-x-3 gap-y-1">
-                            {legalLinks.map((link) => (
-                                <Link key={link.page} to={lp(createPageUrl(link.page))} className="underline-offset-2 transition-colors hover:text-white hover:underline">
-                                    {t(link.name)}
-                                </Link>
-                            ))}
-                        </nav>
                         <LanguageSwitcher tone="dark" className="mt-2 self-start sm:mt-0 sm:self-center" />
                     </Container>
                 </div>
