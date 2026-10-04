@@ -94,6 +94,28 @@ const MARGIN = 24;
 const WALK_SECONDS = 1.3;
 const ATTENTION_EVERY_MS = 14000;
 
+// Sorpresa: tres clics seguits a la mascota i es posa a raspallar-se fent una tombarella
+const PARTY_CLICKS = 3;
+const PARTY_WINDOW_MS = 1200;
+const PARTY_MS = 3200;
+const PARTY_TIP = {
+    pose: 'raspall',
+    actions: ['cita'],
+    text: { ca: 'Uau! Ja tinc les dents ben netes i brillants. I tu, quan vas fer la darrera revisió?', es: '¡Guau! Ya tengo los dientes bien limpios y brillantes. Y tú, ¿cuándo fue tu última revisión?' },
+};
+
+// Bombolles d'escuma que pugen mentre es raspalla
+const BUBBLES = [
+    { x: -38, size: 14, delay: 0 },
+    { x: 30, size: 10, delay: 0.15 },
+    { x: -12, size: 18, delay: 0.3 },
+    { x: 44, size: 12, delay: 0.5 },
+    { x: -48, size: 9, delay: 0.7 },
+    { x: 8, size: 13, delay: 0.85 },
+    { x: 26, size: 16, delay: 1.1 },
+    { x: -26, size: 11, delay: 1.3 },
+];
+
 // Espurnes que surten quan canvia de postura
 const SPARKS = [
     { x: -46, y: -38, color: 'bg-brand-400', size: 'h-2.5 w-2.5' },
@@ -145,6 +167,8 @@ export default function MascotAssistant() {
     const [focused, setFocused] = useState(false);
     const [hidden, setHidden] = useState(() => readFlag(HIDDEN_KEY));
     const [sparkKey, setSparkKey] = useState(0);
+    const [party, setParty] = useState(false);
+    const clicksRef = useRef([]);
     const seenRef = useRef(new Set());
     const closeCountRef = useRef(0);
     const quietRef = useRef(readFlag(QUIET_KEY));
@@ -152,7 +176,8 @@ export default function MascotAssistant() {
     // L'ullet és un gest puntual: a la primera salutació de la visita i quan l'usuari hi interactua
     const [winking, wink] = useWink();
 
-    const tip = TIPS[activeKey] ?? TIPS.inici;
+    const sectionTip = TIPS[activeKey] ?? TIPS.inici;
+    const tip = party ? { ...sectionTip, ...PARTY_TIP } : sectionTip;
     // En mòbil es queda sempre a la dreta per no tapar el text
     const side = isMobile ? 'right' : tip.side;
     const x = side === 'left' ? -(viewportWidth - mascotWidth - MARGIN * 2) : 0;
@@ -285,6 +310,43 @@ export default function MascotAssistant() {
         setBubbleOpen(true);
     }, []);
 
+    const startParty = useCallback(() => {
+        setParty(true);
+        setBubbleOpen(true);
+        setSparkKey((n) => n + 1);
+        actions
+            .start(
+                gentle
+                    ? { y: [0, -10, 0, -10, 0], transition: { duration: 1 } }
+                    : {
+                        y: [0, 8, -90, -60, 0, -14, 0],
+                        rotate: [0, -10, 180, 360, 360, 360, 360],
+                        scaleY: [1, 0.85, 1.1, 1, 0.9, 1.04, 1],
+                        scaleX: [1, 1.12, 0.95, 1, 1.08, 0.98, 1],
+                        transition: { duration: 1.3, ease: 'easeInOut' },
+                    }
+            )
+            .then(() => actions.set({ rotate: 0 }));
+    }, [actions, gentle]);
+
+    useEffect(() => {
+        if (!party) return undefined;
+        const timer = setTimeout(() => setParty(false), PARTY_MS);
+        return () => clearTimeout(timer);
+    }, [party]);
+
+    const onMascotClick = useCallback(() => {
+        const now = Date.now();
+        clicksRef.current = [...clicksRef.current.filter((time) => now - time < PARTY_WINDOW_MS), now];
+        if (clicksRef.current.length >= PARTY_CLICKS && !party) {
+            clicksRef.current = [];
+            startParty();
+            return;
+        }
+        if (!bubbleOpen) wink();
+        setBubbleOpen((open) => !open);
+    }, [bubbleOpen, party, startParty, wink]);
+
     // Moviment continu: flota, es balanceja i "respira"
     const idle = gentle
         ? { y: [0, -5, 0], rotate: [-1.5, 1.5, -1.5] }
@@ -344,7 +406,7 @@ export default function MascotAssistant() {
                 <AnimatePresence>
                     {bubbleOpen && (
                         <motion.div
-                            key={activeKey}
+                            key={party ? 'festa' : activeKey}
                             role="status"
                             initial={{ opacity: 0, scale: 0.85, y: 10 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -439,16 +501,29 @@ export default function MascotAssistant() {
                         </div>
                     )}
 
+                    {/* Bombolles d'escuma durant la sorpresa */}
+                    {party && !gentle && (
+                        <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/3">
+                            {BUBBLES.map((bubble, i) => (
+                                <motion.span
+                                    key={i}
+                                    className="absolute rounded-full border border-brand-200 bg-white/80 shadow-sm"
+                                    style={{ width: bubble.size, height: bubble.size }}
+                                    initial={{ x: bubble.x, y: 0, opacity: 0, scale: 0.4 }}
+                                    animate={{ x: [bubble.x, bubble.x + 8, bubble.x - 6], y: -120, opacity: [0, 1, 0], scale: [0.4, 1, 1.2] }}
+                                    transition={{ duration: 1.6, delay: bubble.delay, ease: 'easeOut' }}
+                                />
+                            ))}
+                        </div>
+                    )}
+
                     {/* Accions puntuals: caminar, botar, cridar l'atenció */}
                     <motion.div animate={actions} style={{ originY: 1 }}>
                         {/* Moviment continu */}
                         <motion.div animate={idle} transition={idleTransition} style={{ originY: 1 }}>
                             <motion.button
                                 type="button"
-                                onClick={() => {
-                                    if (!bubbleOpen) wink();
-                                    setBubbleOpen((open) => !open);
-                                }}
+                                onClick={onMascotClick}
                                 aria-expanded={bubbleOpen}
                                 aria-label={bubbleOpen ? t({ ca: 'Amaga el consell de la mascota', es: 'Ocultar el consejo de la mascota' }) : t({ ca: 'Mostra un consell de la mascota', es: 'Mostrar un consejo de la mascota' })}
                                 whileHover={gentle ? { scale: 1.05 } : { rotate: [0, -10, 9, -6, 4, 0], scale: 1.08, transition: { duration: 0.7 } }}

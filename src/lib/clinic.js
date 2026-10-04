@@ -59,8 +59,8 @@ export const services = [
         title: { ca: 'Neteja dental', es: 'Limpieza dental' },
         short: { ca: 'Higiene professional per mantenir dents i genives sanes.', es: 'Higiene profesional para mantener dientes y encías sanos.' },
         description: {
-            ca: "Eliminem el tàrtar i la placa bacteriana on el raspall no arriba. Una neteja periòdica és la millor manera de prevenir càries i problemes de genives, i de mantenir el somriure brillant.",
-            es: 'Eliminamos el sarro y la placa bacteriana donde el cepillo no llega. Una limpieza periódica es la mejor manera de prevenir caries y problemas de encías, y de mantener una sonrisa brillante.',
+            ca: "Netegem a fons les zones on el raspall no arriba. Una neteja periòdica és la millor manera de prevenir càries i problemes de genives, i de mantenir el somriure brillant.",
+            es: 'Limpiamos a fondo las zonas donde el cepillo no llega. Una limpieza periódica es la mejor manera de prevenir caries y problemas de encías, y de mantener una sonrisa brillante.',
         },
         features: {
             ca: ["Ultrasons d'última generació", 'Poliment professional', 'Fluorització protectora'],
@@ -73,12 +73,12 @@ export const services = [
         title: { ca: 'Ortodòncia', es: 'Ortodoncia' },
         short: { ca: 'Brackets i alineadors invisibles per a un somriure ben alineat.', es: 'Brackets y alineadores invisibles para una sonrisa bien alineada.' },
         description: {
-            ca: "Corregim la posició de les dents i la mossegada amb brackets o amb alineadors transparents Invisalign. Amb l'escàner intraoral 3D prenem les mesures sense motlles i estudiem cada cas per proposar-te el tractament més còmode i eficaç, tant per a nens com per a adults.",
-            es: 'Corregimos la posición de los dientes y la mordida con brackets o con alineadores transparentes Invisalign. Con el escáner intraoral 3D tomamos las medidas sin moldes y estudiamos cada caso para proponerte el tratamiento más cómodo y eficaz, tanto para niños como para adultos.',
+            ca: "Corregim la posició de les dents i la mossegada amb brackets o amb alineadors transparents. Abans de començar fem un estudi cefalomètric a partir de la telerradiografia per planificar cada cas amb precisió i assegurar-nos un bon resultat, tant en nens com en adults.",
+            es: 'Corregimos la posición de los dientes y la mordida con brackets o con alineadores transparentes. Antes de empezar hacemos un estudio cefalométrico a partir de la telerradiografía para planificar cada caso con precisión y asegurarnos un buen resultado, tanto en niños como en adultos.',
         },
         features: {
-            ca: ['Invisalign certificat', 'Escàner 3D, sense motlles', 'Brackets estètics'],
-            es: ['Invisalign certificado', 'Escáner 3D, sin moldes', 'Brackets estéticos'],
+            ca: ['Alineadors transparents', 'Estudi cefalomètric', 'Brackets estètics'],
+            es: ['Alineadores transparentes', 'Estudio cefalométrico', 'Brackets estéticos'],
         },
         image: '/images/serveis/ortodoncia.webp',
     },
@@ -301,8 +301,8 @@ export const faqs = [
     {
         q: { ca: 'Teniu ortodòncia invisible?', es: '¿Tenéis ortodoncia invisible?' },
         a: {
-            ca: 'Sí. A més dels brackets, treballem amb alineadors transparents Invisalign. A la primera visita valorarem quina opció et convé més.',
-            es: 'Sí. Además de los brackets, trabajamos con alineadores transparentes Invisalign. En la primera visita valoraremos qué opción te conviene más.',
+            ca: 'Sí. A més dels brackets, treballem amb alineadors transparents. A la primera visita valorarem quina opció et convé més.',
+            es: 'Sí. Además de los brackets, trabajamos con alineadores transparentes. En la primera visita valoraremos qué opción te conviene más.',
         },
     },
     {

@@ -23,8 +23,8 @@ export const SEO = {
             es: "Tratamientos dentales | Clínica Nou Somriure, Santa Cristina d'Aro",
         },
         description: {
-            ca: "Neteja dental, ortodòncia i Invisalign, implants, endodòncia, pròtesis, estètica dental, odontopediatria i urgències a Santa Cristina d'Aro. Diagnòstic 3D amb CBCT i escàner intraoral.",
-            es: "Limpieza dental, ortodoncia e Invisalign, implantes, endodoncia, prótesis, estética dental, odontopediatría y urgencias en Santa Cristina d'Aro. Diagnóstico 3D con CBCT y escáner intraoral.",
+            ca: "Neteja dental, ortodòncia, implants, endodòncia, pròtesis, estètica dental, odontopediatria i urgències a Santa Cristina d'Aro. Diagnòstic 3D amb CBCT i escàner intraoral.",
+            es: "Limpieza dental, ortodoncia, implantes, endodoncia, prótesis, estética dental, odontopediatría y urgencias en Santa Cristina d'Aro. Diagnóstico 3D con CBCT y escáner intraoral.",
         },
     },
     Equip: {

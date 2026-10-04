@@ -9,6 +9,7 @@ import { stripLangPrefix, useLang } from '@/i18n/LanguageContext';
 import ActionLink from '@/components/site/ActionLink';
 import { Container } from '@/components/site/Primitives';
 import MascotAssistant from '@/components/site/MascotAssistant';
+import PageTransitionMascot from '@/components/site/PageTransitionMascot';
 import LanguageSwitcher from '@/components/site/LanguageSwitcher';
 import { cn } from '@/lib/utils';
 
@@ -342,6 +343,9 @@ export default function Layout({ children, currentPageName }) {
 
             {/* Mascota-assistent (no surt a la pàgina 404, que ja té la seva) */}
             {mounted && currentPageName && !LEGAL_PAGES.includes(currentPageName) && <MascotAssistant />}
+
+            {/* La mascota travessa la pantalla en canviar de pàgina */}
+            {mounted && <PageTransitionMascot currentPageName={currentPageName} />}
         </div>
     );
 }
